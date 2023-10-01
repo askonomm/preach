@@ -1,0 +1,5 @@
+<form method="post">
+  <input type="email" name="email" value="{{ email }}" required />
+  <input type="password" name="password" required />
+  <button type="submit">Create account</button>
+</form>

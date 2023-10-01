@@ -2,7 +2,6 @@ use diesel::prelude::*;
 
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::posts)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Post {
     pub id: i32,
     pub title: String,
@@ -28,7 +27,6 @@ pub struct NewPost<'a> {
 
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::users)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 #[derive(Debug)]
 pub struct User {
     pub id: i32,

@@ -74,3 +74,22 @@ pub fn edit_post(id: i32, cookies: &CookieJar<'_>) -> PostsResponse {
         },
     ))
 }
+
+#[get("/admin/posts/delete/<id>")]
+pub fn delete_post(id: i32, cookies: &CookieJar<'_>) -> Redirect {
+    if !is_authenticated(cookies) {
+        return Redirect::to("/admin/login");
+    }
+
+    let post = get_post(id);
+
+    if post.is_none() {
+        return Redirect::to("/admin/posts");
+    }
+
+    diesel::delete(schema::posts::table.filter(schema::posts::id.eq(id)))
+        .execute(&mut db::connection())
+        .unwrap();
+
+    Redirect::to("/admin/posts")
+}

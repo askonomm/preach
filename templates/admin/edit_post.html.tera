@@ -1,5 +1,7 @@
 <h2>Edit Post</h2>
 
+<a href="/admin/posts/delete/{{ post.id }}">Delete Post</a>
+
 <input type="text" name="title" value="{{ post.title }}" /><br />
 <input type="text" name="slug" value="{{ post.slug }}" /><br />
 <textarea name="content">{{ post.body }}</textarea

@@ -1,7 +1,8 @@
+use std::time::SystemTime;
+
 use bcrypt::hash;
 use bcrypt::DEFAULT_COST;
-use diesel::QueryDsl;
-use diesel::RunQueryDsl;
+use diesel::prelude::*;
 use rocket::form::Form;
 use rocket::http::Cookie;
 use rocket::http::CookieJar;
@@ -67,8 +68,8 @@ pub fn do_setup(setup: Form<Setup>, cookies: &CookieJar<'_>) -> SetupResponse {
         email: &setup.email,
         password: &password,
         auth_token: &auth_token,
-        created_at: chrono::Local::now().naive_local(),
-        updated_at: chrono::Local::now().naive_local(),
+        created_at: SystemTime::now(),
+        updated_at: SystemTime::now(),
     };
 
     let user = diesel::insert_into(schema::users::table)

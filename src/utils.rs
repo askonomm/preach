@@ -3,6 +3,7 @@ use diesel::prelude::*;
 use rocket::http::CookieJar;
 
 use crate::db;
+use crate::models;
 use crate::schema;
 
 pub fn is_authenticated(cookies: &CookieJar) -> bool {
@@ -44,4 +45,23 @@ pub fn set_auth_token(email: &str, auth_token: &str) {
         .set(user_auth_token.eq(auth_token))
         .execute(&mut db::connection())
         .unwrap();
+}
+
+pub fn clear_auth_token(email: &str) {
+    use self::schema::users::dsl::{auth_token as user_auth_token, email as user_email, users};
+
+    diesel::update(users.filter(user_email.eq(email)))
+        .set(user_auth_token.eq(""))
+        .execute(&mut db::connection())
+        .unwrap();
+}
+
+pub fn get_posts() -> Vec<crate::models::Post> {
+    use self::schema::posts::dsl::posts;
+
+    posts
+        .order(schema::posts::id.desc())
+        .select(models::Post::as_select())
+        .load::<models::Post>(&mut db::connection())
+        .unwrap()
 }

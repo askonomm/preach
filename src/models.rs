@@ -1,6 +1,9 @@
-use diesel::prelude::*;
+use std::time::SystemTime;
 
-#[derive(Queryable, Selectable)]
+use diesel::prelude::*;
+use serde::{Deserialize, Serialize};
+
+#[derive(Queryable, Selectable, Serialize, Deserialize)]
 #[diesel(table_name = crate::schema::posts)]
 pub struct Post {
     pub id: i32,
@@ -8,9 +11,9 @@ pub struct Post {
     pub body: String,
     pub user_id: i32,
     pub published_status: String,
-    pub published_at: chrono::NaiveDateTime,
-    pub created_at: chrono::NaiveDateTime,
-    pub updated_at: chrono::NaiveDateTime,
+    pub published_at: SystemTime,
+    pub created_at: SystemTime,
+    pub updated_at: SystemTime,
 }
 
 #[derive(Insertable)]
@@ -20,12 +23,12 @@ pub struct NewPost<'a> {
     pub body: &'a str,
     pub user_id: i32,
     pub published_status: &'a str,
-    pub published_at: chrono::NaiveDateTime,
-    pub created_at: chrono::NaiveDateTime,
-    pub updated_at: chrono::NaiveDateTime,
+    pub published_at: SystemTime,
+    pub created_at: SystemTime,
+    pub updated_at: SystemTime,
 }
 
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, Serialize, Deserialize)]
 #[diesel(table_name = crate::schema::users)]
 #[derive(Debug)]
 pub struct User {
@@ -34,8 +37,8 @@ pub struct User {
     pub password: String,
     pub auth_token: String,
     pub remember_token: String,
-    pub created_at: chrono::NaiveDateTime,
-    pub updated_at: chrono::NaiveDateTime,
+    pub created_at: SystemTime,
+    pub updated_at: SystemTime,
 }
 
 #[derive(Insertable)]
@@ -44,6 +47,6 @@ pub struct NewUser<'a> {
     pub email: &'a str,
     pub password: &'a str,
     pub auth_token: &'a str,
-    pub created_at: chrono::NaiveDateTime,
-    pub updated_at: chrono::NaiveDateTime,
+    pub created_at: SystemTime,
+    pub updated_at: SystemTime,
 }

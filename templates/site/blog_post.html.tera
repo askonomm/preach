@@ -1,0 +1,9 @@
+<p>
+  <a href="/blog">Back to blog</a>
+</p>
+
+<h1>{{ post.title }}</h1>
+
+<p>{{ post.published_at }}</p>
+
+<div class="entry">{{ post.body | safe }}</div>

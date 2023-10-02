@@ -1,0 +1,13 @@
+<div class="posts">
+  <h1>Blog</h1>
+
+  {% for post in posts %}
+  <div class="post">
+    <h2>
+      <a href="/blog/{{ post.slug }}">{{ post.title }}</a>
+    </h2>
+    <p>{{ post.published_at }}</p>
+    <div class="entry">{{ post.body | safe }}</div>
+  </div>
+  {% endfor %}
+</div>

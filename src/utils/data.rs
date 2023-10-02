@@ -70,7 +70,18 @@ pub fn is_setup() -> bool {
     }
 }
 
-pub fn get_posts() -> Vec<models::Post> {
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct DisplayablePost {
+    pub id: i32,
+    pub title: String,
+    pub slug: String,
+    pub body: String,
+    pub raw_body: String,
+    pub published_status: String,
+    pub published_at: String,
+}
+
+pub fn get_posts() -> Vec<DisplayablePost> {
     use self::schema::posts::dsl::{id, posts};
 
     let all_posts = posts
@@ -79,19 +90,58 @@ pub fn get_posts() -> Vec<models::Post> {
         .load::<models::Post>(&mut db::connection());
 
     match all_posts {
-        Ok(all_posts) => all_posts,
+        Ok(all_posts) => all_posts
+            .into_iter()
+            .map(|post| {
+                return DisplayablePost {
+                    id: post.id,
+                    title: post.title,
+                    slug: post.slug,
+                    body: markdown::to_html(&post.body),
+                    raw_body: post.body,
+                    published_status: post.published_status,
+                    published_at: system_time_to_date_str(post.published_at)
+                        .split_at(10)
+                        .0
+                        .to_string(),
+                };
+            })
+            .collect(),
         Err(_) => vec![],
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct DisplayablePost {
-    pub id: i32,
-    pub title: String,
-    pub slug: String,
-    pub body: String,
-    pub published_status: String,
-    pub published_at: String,
+pub fn get_published_posts() -> Vec<DisplayablePost> {
+    use self::schema::posts::dsl::{id, posts, published_status};
+
+    let all_posts = posts
+        .filter(published_status.eq("published"))
+        .order(id.desc())
+        .select(models::Post::as_select())
+        .load::<models::Post>(&mut db::connection());
+
+    match all_posts {
+        Ok(all_posts) => {
+            return all_posts
+                .into_iter()
+                .map(|post| {
+                    return DisplayablePost {
+                        id: post.id,
+                        title: post.title,
+                        slug: post.slug,
+                        body: markdown::to_html(&post.body),
+                        raw_body: post.body,
+                        published_status: post.published_status,
+                        published_at: system_time_to_date_str(post.published_at)
+                            .split_at(10)
+                            .0
+                            .to_string(),
+                    };
+                })
+                .collect();
+        }
+        Err(_) => vec![],
+    }
 }
 
 pub fn get_post(id: i32) -> Option<DisplayablePost> {
@@ -113,7 +163,8 @@ pub fn get_post(id: i32) -> Option<DisplayablePost> {
                     id: post.id,
                     title: post.title,
                     slug: post.slug,
-                    body: post.body,
+                    body: markdown::to_html(&post.body),
+                    raw_body: post.body,
                     published_status: post.published_status,
                     published_at: system_time_to_date_str(post.published_at)
                         .split_at(10)
@@ -126,6 +177,38 @@ pub fn get_post(id: i32) -> Option<DisplayablePost> {
     }
 }
 
+pub fn get_post_by_slug(slug: &str) -> Option<DisplayablePost> {
+    use self::schema::posts::dsl::{posts, slug as post_slug};
+
+    let all_posts = posts
+        .filter(post_slug.eq(slug))
+        .select(models::Post::as_select())
+        .load::<models::Post>(&mut db::connection());
+
+    match all_posts {
+        Ok(all_posts) => {
+            if all_posts.is_empty() {
+                return None;
+            } else {
+                let post = all_posts[0].clone();
+
+                return Some(DisplayablePost {
+                    id: post.id,
+                    title: post.title,
+                    slug: post.slug,
+                    body: markdown::to_html(&post.body),
+                    raw_body: post.body,
+                    published_status: post.published_status,
+                    published_at: system_time_to_date_str(post.published_at)
+                        .split_at(10)
+                        .0
+                        .to_string(),
+                });
+            }
+        }
+        Err(_) => None,
+    }
+}
 pub fn get_user_id_by_auth_token(auth_token: String) -> Option<i32> {
     use self::schema::users::dsl::{auth_token as user_auth_token, id, users};
 

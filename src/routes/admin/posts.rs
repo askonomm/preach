@@ -5,7 +5,7 @@ use std::time::SystemTime;
 
 use crate::{
     db, models, schema,
-    utils::{get_posts, get_user_id_by_auth_token, is_authenticated},
+    utils::{get_post, get_posts, get_user_id_by_auth_token, is_authenticated},
 };
 
 #[derive(Responder)]
@@ -61,5 +61,16 @@ pub fn edit_post(id: i32, cookies: &CookieJar<'_>) -> PostsResponse {
         return PostsResponse::Redirect(Redirect::to("/admin/login"));
     }
 
-    PostsResponse::Template(Template::render("admin/edit_post", context! {}))
+    let post = get_post(id);
+
+    if post.is_none() {
+        return PostsResponse::Redirect(Redirect::to("/admin/posts"));
+    }
+
+    PostsResponse::Template(Template::render(
+        "admin/edit_post",
+        context! {
+            post: get_post(id).unwrap(),
+        },
+    ))
 }

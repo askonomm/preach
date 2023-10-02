@@ -3,7 +3,7 @@ use std::time::SystemTime;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, PartialEq, Selectable, Serialize, Deserialize, Debug)]
+#[derive(Queryable, PartialEq, Selectable, Serialize, Deserialize, Debug, Clone)]
 #[diesel(table_name = crate::schema::posts)]
 pub struct Post {
     pub id: i32,

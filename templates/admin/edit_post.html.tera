@@ -1,1 +1,12 @@
 <h2>Edit Post</h2>
+
+<input type="text" name="title" value="{{ post.title }}" /><br />
+<input type="text" name="slug" value="{{ post.slug }}" /><br />
+<textarea name="content">{{ post.body }}</textarea
+><br />
+<select name="published_status">
+    <option value="draft" {% if post.published_status == "draft" %}selected{% endif %}>Draft</option>
+    <option value="published" {% if post.published_status == "published" %}selected{% endif %}>Published</option>
+</select><br>
+
+<input type="date" name="published_at" value="{{ post.published_at }}" /><br />

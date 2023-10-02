@@ -81,6 +81,26 @@ pub fn get_posts() -> Vec<models::Post> {
     }
 }
 
+pub fn get_post(id: i32) -> Option<models::Post> {
+    use self::schema::posts::dsl::{id as post_id, posts};
+
+    let all_posts = posts
+        .filter(post_id.eq(id))
+        .select(models::Post::as_select())
+        .load::<models::Post>(&mut db::connection());
+
+    match all_posts {
+        Ok(all_posts) => {
+            if all_posts.is_empty() {
+                return None;
+            } else {
+                return Some(all_posts[0].clone());
+            }
+        }
+        Err(_) => None,
+    }
+}
+
 pub fn get_user_id_by_auth_token(auth_token: String) -> Option<i32> {
     use self::schema::users::dsl::{auth_token as user_auth_token, id, users};
 

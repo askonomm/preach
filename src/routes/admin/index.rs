@@ -1,6 +1,6 @@
 use rocket::{http::CookieJar, response::Redirect};
 
-use crate::utils::{is_authenticated, is_setup};
+use crate::utils::data::{is_authenticated, is_setup};
 
 #[get("/admin")]
 pub fn index(cookies: &CookieJar<'_>) -> Redirect {

@@ -13,7 +13,7 @@ use uuid::Uuid;
 use crate::db;
 use crate::models;
 use crate::schema;
-use crate::utils::is_setup;
+use crate::utils::data::is_setup;
 
 #[derive(Responder)]
 pub enum SetupResponse {

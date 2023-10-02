@@ -1,14 +1,47 @@
+<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+
 <h2>Edit Post</h2>
 
 <a href="/admin/posts/delete/{{ post.id }}">Delete Post</a>
 
-<input type="text" name="title" value="{{ post.title }}" /><br />
-<input type="text" name="slug" value="{{ post.slug }}" /><br />
-<textarea name="content">{{ post.body }}</textarea
-><br />
-<select name="published_status">
-    <option value="draft" {% if post.published_status == "draft" %}selected{% endif %}>Draft</option>
-    <option value="published" {% if post.published_status == "published" %}selected{% endif %}>Published</option>
-</select><br>
+<br />
 
-<input type="date" name="published_at" value="{{ post.published_at }}" /><br />
+<input
+  type="text"
+  name="title"
+  value="{{ post.title }}"
+  hx-post="/admin/api/post/{{ post.id }}/update-title"
+  hx-trigger="input changed delay:250ms"
+/><br />
+
+<input
+  type="text"
+  name="slug"
+  value="{{ post.slug }}"
+  hx-post="/admin/api/post/{{ post.id }}/update-slug"
+  hx-trigger="input changed delay:250ms"
+/><br />
+
+<textarea
+  name="body"
+  hx-post="/admin/api/post/{{ post.id }}/update-body"
+  hx-trigger="input changed delay:250ms"
+  >{{ post.body }}</textarea
+><br />
+
+<select
+  name="published_status"
+  hx-post="/admin/api/post/{{ post.id }}/update-status"
+  hx-trigger="input changed delay:250ms"
+>
+  <option value="draft">Draft</option>
+  <option value="published">Published</option></select
+><br />
+
+<input
+  type="date"
+  name="published_at"
+  value="{{ post.published_at }}"
+  hx-post="/admin/api/post/{{ post.id }}/update-date"
+  hx-trigger="input changed delay:250ms"
+/><br />

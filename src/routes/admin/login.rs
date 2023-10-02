@@ -6,7 +6,7 @@ use rocket::{
 use rocket_dyn_templates::{context, Template};
 use uuid::Uuid;
 
-use crate::utils::{authenticates, set_auth_token};
+use crate::utils::data::{authenticates, set_auth_token};
 
 #[get("/admin/login")]
 pub fn login() -> Template {

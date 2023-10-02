@@ -5,7 +5,7 @@ use std::time::SystemTime;
 
 use crate::{
     db, models, schema,
-    utils::{get_post, get_posts, get_user_id_by_auth_token, is_authenticated},
+    utils::data::{get_post, get_posts, get_user_id_by_auth_token, is_authenticated},
 };
 
 #[derive(Responder)]

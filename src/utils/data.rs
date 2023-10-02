@@ -52,10 +52,10 @@ pub fn set_auth_token(email: &str, auth_token: &str) {
         .unwrap();
 }
 
-pub fn clear_auth_token(email: &str) {
-    use self::schema::users::dsl::{auth_token as user_auth_token, email as user_email, users};
+pub fn clear_auth_token(auth_token: &str) {
+    use self::schema::users::dsl::{auth_token as user_auth_token, users};
 
-    diesel::update(users.filter(user_email.eq(email)))
+    diesel::update(users.filter(user_auth_token.eq(auth_token)))
         .set(user_auth_token.eq(""))
         .execute(&mut db::connection())
         .unwrap();

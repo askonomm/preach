@@ -1,3 +1,4 @@
+use bcrypt::verify;
 use diesel::prelude::*;
 use rocket::http::CookieJar;
 
@@ -20,4 +21,27 @@ pub fn is_authenticated(cookies: &CookieJar) -> bool {
         Ok(results) => !results.is_empty(),
         Err(_) => false,
     }
+}
+
+pub fn authenticates(email: &str, password: &str) -> bool {
+    use self::schema::users::dsl::{email as user_email, password as user_password, users};
+
+    let all_users = users
+        .filter(user_email.eq(email))
+        .select(user_password)
+        .load::<String>(&mut db::connection());
+
+    match all_users {
+        Ok(all_users) => !all_users.is_empty() && verify(password, &all_users[0]).unwrap(),
+        Err(_) => false,
+    }
+}
+
+pub fn set_auth_token(email: &str, auth_token: &str) {
+    use self::schema::users::dsl::{auth_token as user_auth_token, email as user_email, users};
+
+    diesel::update(users.filter(user_email.eq(email)))
+        .set(user_auth_token.eq(auth_token))
+        .execute(&mut db::connection())
+        .unwrap();
 }

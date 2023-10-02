@@ -1,3 +1,5 @@
+use bcrypt::hash;
+use bcrypt::DEFAULT_COST;
 use diesel::QueryDsl;
 use diesel::RunQueryDsl;
 use rocket::form::Form;
@@ -57,10 +59,13 @@ pub fn do_setup(setup: Form<Setup>, cookies: &CookieJar<'_>) -> SetupResponse {
     // Create auth token
     let auth_token = Uuid::new_v4().to_string();
 
+    // Hash password
+    let password = hash(setup.password.clone(), DEFAULT_COST).unwrap();
+
     // Create user
     let new_user = models::NewUser {
         email: &setup.email,
-        password: &setup.password,
+        password: &password,
         auth_token: &auth_token,
         created_at: chrono::Local::now().naive_local(),
         updated_at: chrono::Local::now().naive_local(),
@@ -70,11 +75,7 @@ pub fn do_setup(setup: Form<Setup>, cookies: &CookieJar<'_>) -> SetupResponse {
         .values(&new_user)
         .execute(&mut db::connection());
 
-    if user.is_err() {
-        println!("Error creating user: {:?}", user)
-    }
-
-    // E woalaa
+    // Log the user in or show an error
     match user {
         Ok(_) => {
             cookies.add(Cookie::new("auth_token", auth_token));

@@ -16,6 +16,7 @@ fn rocket() -> _ {
         routes::admin::setup::setup,
         routes::admin::setup::do_setup,
         routes::admin::login::login,
+        routes::admin::login::do_login,
         routes::admin::posts::posts,
         routes::site::index::index,
         routes::site::blog::blog,

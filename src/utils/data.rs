@@ -1,3 +1,5 @@
+use std::time::SystemTime;
+
 use bcrypt::verify;
 use diesel::prelude::*;
 use rocket::http::CookieJar;
@@ -223,6 +225,57 @@ pub fn get_user_id_by_auth_token(auth_token: String) -> Option<i32> {
                 return None;
             } else {
                 return Some(results[0]);
+            }
+        }
+        Err(_) => None,
+    }
+}
+
+pub fn update_or_create_setting(key: &str, value: &str) {
+    use schema::site_info::dsl::{created_at, entry, name, site_info, updated_at};
+
+    let setting = site_info
+        .filter(name.eq(key))
+        .select(name)
+        .load::<String>(&mut db::connection());
+
+    match setting {
+        Ok(setting) => {
+            if setting.is_empty() {
+                diesel::insert_into(schema::site_info::table)
+                    .values((
+                        name.eq(key),
+                        entry.eq(value),
+                        updated_at.eq(SystemTime::now()),
+                        created_at.eq(SystemTime::now()),
+                    ))
+                    .execute(&mut db::connection())
+                    .unwrap();
+            } else {
+                diesel::update(site_info.filter(name.eq(key)))
+                    .set((entry.eq(value), updated_at.eq(SystemTime::now())))
+                    .execute(&mut db::connection())
+                    .unwrap();
+            }
+        }
+        Err(_) => {}
+    }
+}
+
+pub fn get_setting(key: &str) -> Option<String> {
+    use schema::site_info::dsl::{entry, name, site_info};
+
+    let setting = site_info
+        .filter(name.eq(key))
+        .select(entry)
+        .load::<String>(&mut db::connection());
+
+    match setting {
+        Ok(setting) => {
+            if setting.is_empty() {
+                return None;
+            } else {
+                return Some(setting[0].clone());
             }
         }
         Err(_) => None,

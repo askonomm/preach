@@ -26,4 +26,14 @@ diesel::table! {
     }
 }
 
-diesel::allow_tables_to_appear_in_same_query!(posts, users,);
+diesel::table! {
+    site_info (id) {
+        id -> Integer,
+        name -> Text,
+        entry -> Text,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::allow_tables_to_appear_in_same_query!(posts, users, site_info,);

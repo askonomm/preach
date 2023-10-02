@@ -1,0 +1,13 @@
+<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+
+<h2>Settings</h2>
+
+<label
+  >Site title
+  <input
+    type="text"
+    name="title"
+    value="{{ title }}"
+    hx-post="/admin/api/settings/update-title"
+    hx-trigger="input changed delay:250ms" /></label
+><br />

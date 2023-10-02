@@ -52,3 +52,22 @@ pub struct NewUser<'a> {
     pub created_at: SystemTime,
     pub updated_at: SystemTime,
 }
+
+#[derive(Queryable, Selectable, Serialize, Deserialize)]
+#[diesel(table_name = crate::schema::site_info)]
+pub struct SiteInfo {
+    pub id: i32,
+    pub name: String,
+    pub entry: String,
+    pub created_at: SystemTime,
+    pub updated_at: SystemTime,
+}
+
+#[derive(Insertable, Selectable, Serialize, Deserialize)]
+#[diesel(table_name = crate::schema::site_info)]
+pub struct NewSiteInfo<'a> {
+    pub name: &'a str,
+    pub entry: &'a str,
+    pub created_at: SystemTime,
+    pub updated_at: SystemTime,
+}

@@ -1,3 +1,6 @@
+{% extends "site/base" %} {% block content %}
 <p>
   <a href="/blog">There's a blog here.</a>
 </p>
+
+{% endblock %}

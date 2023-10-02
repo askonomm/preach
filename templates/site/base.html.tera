@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      {% if post %}{{ post.title }} &mdash; {% endif %}{{ site_title }}
+    </title>
+    <style>
+      body {
+        max-width: 500px;
+        margin: 50px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ site_title }}</h1>
+
+    {% block content %}{% endblock content %}
+  </body>
+</html>

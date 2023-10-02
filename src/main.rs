@@ -29,6 +29,8 @@ fn rocket() -> _ {
         routes::admin::login::login,
         routes::admin::login::do_login,
         routes::admin::posts::posts,
+        routes::admin::posts::new_post,
+        routes::admin::posts::edit_post,
         routes::site::index::index,
         routes::site::blog::blog,
         routes::site::blog_post::blog_post,

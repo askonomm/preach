@@ -3,11 +3,12 @@ use std::time::SystemTime;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, Selectable, Serialize, Deserialize)]
+#[derive(Queryable, PartialEq, Selectable, Serialize, Deserialize, Debug)]
 #[diesel(table_name = crate::schema::posts)]
 pub struct Post {
     pub id: i32,
     pub title: String,
+    pub slug: String,
     pub body: String,
     pub user_id: i32,
     pub published_status: String,
@@ -16,10 +17,11 @@ pub struct Post {
     pub updated_at: SystemTime,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Selectable, Serialize, Deserialize)]
 #[diesel(table_name = crate::schema::posts)]
 pub struct NewPost<'a> {
     pub title: &'a str,
+    pub slug: &'a str,
     pub body: &'a str,
     pub user_id: i32,
     pub published_status: &'a str,
@@ -41,7 +43,7 @@ pub struct User {
     pub updated_at: SystemTime,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Selectable, Serialize, Deserialize)]
 #[diesel(table_name = crate::schema::users)]
 pub struct NewUser<'a> {
     pub email: &'a str,

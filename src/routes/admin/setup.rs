@@ -13,17 +13,7 @@ use uuid::Uuid;
 use crate::db;
 use crate::models;
 use crate::schema;
-
-fn is_setup() -> bool {
-    use self::schema::users::dsl::{id, users};
-
-    let user_ids = users.select(id).load::<i32>(&mut db::connection());
-
-    match user_ids {
-        Ok(results) => !results.is_empty(),
-        Err(_) => false,
-    }
-}
+use crate::utils::is_setup;
 
 #[derive(Responder)]
 pub enum SetupResponse {

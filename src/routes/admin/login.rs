@@ -10,9 +10,12 @@ use crate::utils::{authenticates, set_auth_token};
 
 #[get("/admin/login")]
 pub fn login() -> Template {
-    let context = context! {};
-
-    Template::render("admin/login", &context)
+    Template::render(
+        "admin/login",
+        context! {
+            email: ""
+        },
+    )
 }
 
 #[derive(FromForm)]
@@ -33,6 +36,8 @@ pub fn do_login(login: Form<Login>, cookies: &CookieJar<'_>) -> LoginResponse {
         let auth_token = Uuid::new_v4().to_string();
         cookies.add(Cookie::new("auth_token", auth_token.clone()));
         set_auth_token(&login.email, &auth_token);
+
+        println!("Logged in as {}", &login.email);
 
         return LoginResponse::Redirect(Redirect::to("/admin/posts"));
     }

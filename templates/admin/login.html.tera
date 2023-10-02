@@ -1,5 +1,9 @@
+{% if error %}
+<p>{{ error }}</p>
+{% endif %}
+
 <form method="post">
-  <input type="email" name="email" required />
+  <input type="email" name="email" value="{{ email }}" required />
   <input type="password" name="password" required />
   <button type="submit">Login</button>
 </form>

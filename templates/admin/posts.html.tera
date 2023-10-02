@@ -3,9 +3,9 @@
 <a href="/admin/posts/new">New Post</a>
 
 <ul>
-  <% for (const post of posts) { %>
+  {% for post in posts %}
   <li>
-    <a href="/admin/posts/edit/<%= post.id %>"> <%= post.title %> </a>
+    <a href="/admin/posts/edit/{{ post.id }}">{{ post.title }}</a>
   </li>
-  <% } %>
+  {% endfor %}
 </ul>

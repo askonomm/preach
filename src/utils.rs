@@ -56,12 +56,47 @@ pub fn clear_auth_token(email: &str) {
         .unwrap();
 }
 
-pub fn get_posts() -> Vec<crate::models::Post> {
-    use self::schema::posts::dsl::posts;
+pub fn is_setup() -> bool {
+    use self::schema::users::dsl::{id, users};
 
-    posts
-        .order(schema::posts::id.desc())
+    let user_ids = users.select(id).load::<i32>(&mut db::connection());
+
+    match user_ids {
+        Ok(results) => !results.is_empty(),
+        Err(_) => false,
+    }
+}
+
+pub fn get_posts() -> Vec<models::Post> {
+    use self::schema::posts::dsl::{id, posts};
+
+    let all_posts = posts
+        .order(id.desc())
         .select(models::Post::as_select())
-        .load::<models::Post>(&mut db::connection())
-        .unwrap()
+        .load::<models::Post>(&mut db::connection());
+
+    match all_posts {
+        Ok(all_posts) => all_posts,
+        Err(_) => vec![],
+    }
+}
+
+pub fn get_user_id_by_auth_token(auth_token: String) -> Option<i32> {
+    use self::schema::users::dsl::{auth_token as user_auth_token, id, users};
+
+    let user_ids = users
+        .filter(user_auth_token.eq(auth_token))
+        .select(id)
+        .load::<i32>(&mut db::connection());
+
+    match user_ids {
+        Ok(results) => {
+            if results.is_empty() {
+                return None;
+            } else {
+                return Some(results[0]);
+            }
+        }
+        Err(_) => None,
+    }
 }

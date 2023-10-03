@@ -11,6 +11,7 @@ pub fn index() -> Template {
             site_image: get_setting("image"),
             site_title: get_setting("title"),
             site_description: markdown::to_html(&get_setting("description").unwrap_or("".to_string())),
+            site_short_description: get_setting("short_description"),
         },
     )
 }

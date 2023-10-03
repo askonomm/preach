@@ -1,5 +1,11 @@
 {% extends "site/base" %}
 
+{% block title %}
+    {% if site_short_description and site_short_description != "" %}
+        {{ site_short_description }} &mdash; 
+    {% endif %}
+{% endblock title%}
+
 {% block content %}
 
 <h2 class="page-title">About</h2>

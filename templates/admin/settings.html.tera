@@ -16,6 +16,10 @@
     hx-trigger="input changed delay:250ms" /></label
 ><br />
 
+<label>Site short description
+  <input type="text" name="description" value="{{ short_description }}" hx-post="/admin/api/settings/update-short-description"
+    hx-trigger="input changed delay:250ms" /></label><br />
+
 <label
   >Site description
   <textarea

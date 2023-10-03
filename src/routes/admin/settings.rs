@@ -21,6 +21,7 @@ pub fn settings(cookies: &CookieJar<'_>) -> SettingsResponse {
             image: get_setting("image"),
             title: get_setting("title"),
             description: get_setting("description"),
+            short_description: get_setting("short_description"),
         },
     ))
 }

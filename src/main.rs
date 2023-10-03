@@ -41,6 +41,7 @@ fn rocket() -> _ {
         routes::admin::api::post::update_date::update_date,
         routes::admin::api::settings::update_title::update_title,
         routes::admin::api::settings::update_description::update_description,
+        routes::admin::api::settings::update_short_description::update_short_description,
         routes::admin::api::settings::update_image::update_image,
         routes::site::index::index,
         routes::site::blog::blog,

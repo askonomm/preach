@@ -168,6 +168,8 @@
                 width: auto;
                 text-align: left;
                 transform: rotate(0deg);
+                font-weight: 500;
+                text-transform: capitalize;
                 position: relative;
                 top: 0;
                 height: auto;
@@ -200,7 +202,7 @@
         }
 
         .posts .post {
-            margin-bottom: 150px;
+            margin-bottom: 200px;
         }
 
         .posts .post:last-child {
@@ -239,7 +241,80 @@
             }
         }
 
-        .post-entry {}
+        .post-body {}
+
+        .post-body code {
+            font-size: 14px;
+            font-family: monospace;
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            padding: 3px 6px;
+            border-radius: 5px;
+        }
+
+        @media all and (max-width: 800px) {
+            .post-body code {
+                font-size: 13px;
+            }
+        }
+
+        .post-body pre {
+            display: block;
+            width: calc(100% + 120px);
+            font-size: 14px;
+            font-family: monospace;
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            overflow: auto;
+            padding: 30px 60px;
+            margin-top: 30px;
+            margin-left: -60px;
+        }
+
+        @media all and (max-width: 800px) {
+            .post-body pre {
+                width: calc(100% + 60px);
+                font-size: 13px;
+                border-radius: 0;
+                border-left: 0;
+                border-right: 0;
+                padding: 20px 30px;
+                margin-left: -30px;
+            }
+        }
+
+        .post-body pre code {
+            border: 0;
+            padding: 0;
+        }
+
+        .post-body img {
+            width: calc(100% + 120px);
+            height: auto;
+            margin-left: -60px;
+        }
+
+        @media all and (max-width: 800px) {
+            .post-body img {
+                width: calc(100% + 60px);
+                margin-left: -30px;
+            }
+        }
+
+        .post-body h2 {
+            font-size: 21px;
+            font-weight: 500;
+            color: #333;
+            margin-top: 70px;
+        }
+
+        @media all and (max-width: 800px) {
+            .post-body h2 {
+                font-size: 18px;
+                margin-top: 50px;
+            }
+        }
     </style>
 </head>
 <body>

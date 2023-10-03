@@ -91,11 +91,11 @@ pub fn get_posts() -> Vec<DisplayablePost> {
 }
 
 pub fn get_published_posts() -> Vec<DisplayablePost> {
-    use self::schema::posts::dsl::{id, posts, published_status};
+    use self::schema::posts::dsl::{posts, published_at, published_status};
 
     let all_posts = posts
         .filter(published_status.eq("published"))
-        .order(id.desc())
+        .order(published_at.desc())
         .select(models::Post::as_select())
         .load::<models::Post>(&mut db::connection());
 

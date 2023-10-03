@@ -6,7 +6,7 @@
 
 <div class="posts">
   <div class="post">
-    <h3 class="post-title"><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
+    <h2 class="post-title"><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h2>
     <div class="post-date">{{ post.published_at_pretty }}</div>
     <div class="post-body">{{ post.body | safe }}</div>
   </div>

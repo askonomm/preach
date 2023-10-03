@@ -1,5 +1,7 @@
 {% extends "site/base" %} 
 
+{% block title %}{{ post.title }} &mdash; {% endblock title %}
+
 {% block content %}
 
 <div class="posts">

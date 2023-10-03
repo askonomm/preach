@@ -1,4 +1,8 @@
-{% extends "site/base" %} {% block content %}
+{% extends "site/base" %} 
+
+{% block title %}Blog &mdash; {% endblock title %}
+
+{% block content %}
 
 <h2 class="page-title">Blog</h2>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{% if post %}{{ post.title }} &mdash; {% endif %}{{ site_title }}</title>
+    <title>{% block title %}{% endblock title %}{{ site_title }}</title>
     <style>
         * {
             letter-spacing: 0.1px;

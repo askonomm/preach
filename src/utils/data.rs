@@ -1,15 +1,14 @@
 use std::time::SystemTime;
 
-use bcrypt::verify;
-use diesel::prelude::*;
-use rocket::http::CookieJar;
-use serde::Deserialize;
-use serde::Serialize;
-
 use crate::db;
 use crate::models;
 use crate::schema;
-use crate::utils::date::system_time_to_date_str;
+use crate::utils::conversion::post_to_displayable_post;
+use bcrypt::verify;
+use diesel::prelude::*;
+use rocket::http::CookieJar;
+
+use super::conversion::DisplayablePost;
 
 pub fn is_authenticated(cookies: &CookieJar) -> bool {
     if cookies.get("auth_token").is_none() {
@@ -72,17 +71,6 @@ pub fn is_setup() -> bool {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct DisplayablePost {
-    pub id: i32,
-    pub title: String,
-    pub slug: String,
-    pub body: String,
-    pub raw_body: String,
-    pub published_status: String,
-    pub published_at: String,
-}
-
 pub fn get_posts() -> Vec<DisplayablePost> {
     use self::schema::posts::dsl::{id, posts};
 
@@ -95,18 +83,7 @@ pub fn get_posts() -> Vec<DisplayablePost> {
         Ok(all_posts) => all_posts
             .into_iter()
             .map(|post| {
-                return DisplayablePost {
-                    id: post.id,
-                    title: post.title,
-                    slug: post.slug,
-                    body: markdown::to_html(&post.body),
-                    raw_body: post.body,
-                    published_status: post.published_status,
-                    published_at: system_time_to_date_str(post.published_at)
-                        .split_at(10)
-                        .0
-                        .to_string(),
-                };
+                return post_to_displayable_post(post);
             })
             .collect(),
         Err(_) => vec![],
@@ -127,18 +104,7 @@ pub fn get_published_posts() -> Vec<DisplayablePost> {
             return all_posts
                 .into_iter()
                 .map(|post| {
-                    return DisplayablePost {
-                        id: post.id,
-                        title: post.title,
-                        slug: post.slug,
-                        body: markdown::to_html(&post.body),
-                        raw_body: post.body,
-                        published_status: post.published_status,
-                        published_at: system_time_to_date_str(post.published_at)
-                            .split_at(10)
-                            .0
-                            .to_string(),
-                    };
+                    return post_to_displayable_post(post);
                 })
                 .collect();
         }
@@ -159,20 +125,7 @@ pub fn get_post(id: i32) -> Option<DisplayablePost> {
             if all_posts.is_empty() {
                 return None;
             } else {
-                let post = all_posts[0].clone();
-
-                return Some(DisplayablePost {
-                    id: post.id,
-                    title: post.title,
-                    slug: post.slug,
-                    body: markdown::to_html(&post.body),
-                    raw_body: post.body,
-                    published_status: post.published_status,
-                    published_at: system_time_to_date_str(post.published_at)
-                        .split_at(10)
-                        .0
-                        .to_string(),
-                });
+                return Some(post_to_displayable_post(all_posts[0].clone()));
             }
         }
         Err(_) => None,
@@ -192,20 +145,7 @@ pub fn get_post_by_slug(slug: &str) -> Option<DisplayablePost> {
             if all_posts.is_empty() {
                 return None;
             } else {
-                let post = all_posts[0].clone();
-
-                return Some(DisplayablePost {
-                    id: post.id,
-                    title: post.title,
-                    slug: post.slug,
-                    body: markdown::to_html(&post.body),
-                    raw_body: post.body,
-                    published_status: post.published_status,
-                    published_at: system_time_to_date_str(post.published_at)
-                        .split_at(10)
-                        .0
-                        .to_string(),
-                });
+                return Some(post_to_displayable_post(all_posts[0].clone()));
             }
         }
         Err(_) => None,

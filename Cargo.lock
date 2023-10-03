@@ -1291,12 +1291,23 @@ dependencies = [
  "diesel_migrations",
  "dotenvy",
  "markdown",
+ "pretty_date",
  "rocket",
  "rocket_dyn_templates",
  "serde",
  "serde_json",
  "time",
  "uuid",
+]
+
+[[package]]
+name = "pretty_date"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2e571dbb1016c8394a881479c80467b4809700c10b483dc220761fd09656eb29"
+dependencies = [
+ "chrono",
+ "lazy_static",
 ]
 
 [[package]]

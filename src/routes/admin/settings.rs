@@ -18,7 +18,9 @@ pub fn settings(cookies: &CookieJar<'_>) -> SettingsResponse {
     SettingsResponse::Template(Template::render(
         "admin/settings",
         context! {
+            image: get_setting("image"),
             title: get_setting("title"),
+            description: get_setting("description"),
         },
     ))
 }

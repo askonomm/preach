@@ -2,6 +2,10 @@
 
 <h2>Settings</h2>
 
+<label>Site image
+  <input type="text" name="image" value="{{ image }}" hx-post="/admin/api/settings/update-image"
+    hx-trigger="input changed delay:250ms" /></label><br />
+
 <label
   >Site title
   <input
@@ -10,4 +14,14 @@
     value="{{ title }}"
     hx-post="/admin/api/settings/update-title"
     hx-trigger="input changed delay:250ms" /></label
+><br />
+
+<label
+  >Site description
+  <textarea
+    name="description"
+    hx-post="/admin/api/settings/update-description"
+    hx-trigger="input changed delay:250ms"
+    >{{ description }}</textarea
+  ></label
 ><br />

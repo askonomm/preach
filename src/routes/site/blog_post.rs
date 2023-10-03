@@ -13,6 +13,8 @@ pub fn blog_post(slug: &str) -> Template {
         Some(post) => Template::render(
             "site/blog_post",
             context! {
+                active_page: "blog",
+                site_image: get_setting("image"),
                 site_title: get_setting("title"),
                 post: post
             },
@@ -20,6 +22,7 @@ pub fn blog_post(slug: &str) -> Template {
         None => Template::render(
             "site/404",
             context! {
+                site_image: get_setting("image"),
                 site_title: get_setting("title"),
                 post: None::<Post>
             },

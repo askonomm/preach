@@ -1,6 +1,11 @@
-{% extends "site/base" %} {% block content %}
-<p>
-  <a href="/blog">There's a blog here.</a>
-</p>
+{% extends "site/base" %}
+
+{% block content %}
+
+<h2 class="page-title">About</h2>
+
+<div class="description">
+    {{ site_description|safe }}
+</div>
 
 {% endblock %}

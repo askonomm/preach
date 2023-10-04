@@ -12,6 +12,7 @@
   value="{{ post.title }}"
   hx-post="/admin/api/post/{{ post.id }}/update-title"
   hx-trigger="input changed delay:250ms"
+  hx-swap="none"
 /><br />
 
 <input
@@ -20,12 +21,14 @@
   value="{{ post.slug }}"
   hx-post="/admin/api/post/{{ post.id }}/update-slug"
   hx-trigger="input changed delay:250ms"
+  hx-swap="none"
 /><br />
 
 <textarea
   name="body"
   hx-post="/admin/api/post/{{ post.id }}/update-body"
   hx-trigger="input changed delay:250ms"
+  hx-swap="none"
   >{{ post.raw_body }}</textarea
 ><br />
 
@@ -33,10 +36,16 @@
   name="published_status"
   hx-post="/admin/api/post/{{ post.id }}/update-status"
   hx-trigger="input changed delay:250ms"
+  hx-swap="none"
 >
+  {% if post.published_status == "draft" %}
   <option value="draft">Draft</option>
-  <option value="published">Published</option></select
-><br />
+  <option value="published">Published</option>
+  {% else %}
+  <option value="published">Published</option>
+  <option value="draft">Draft</option>
+  {% endif %}
+</select><br />
 
 <input
   type="date"
@@ -44,6 +53,7 @@
   value="{{ post.published_at }}"
   hx-post="/admin/api/post/{{ post.id }}/update-date"
   hx-trigger="input changed delay:250ms"
+  hx-swap="none"
 /><br />
 
 <script>

@@ -49,7 +49,7 @@ pub async fn upload_image(
 
     let result = upload
         .file
-        .persist_to(format!("{}/{}", upload_path, name))
+        .copy_to(format!("{}/{}", upload_path, name))
         .await;
 
     match result {

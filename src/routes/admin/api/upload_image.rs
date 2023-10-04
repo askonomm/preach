@@ -60,7 +60,9 @@ pub async fn upload_image(
                 file_url: Some(format!("{}/{}", upload_url, name)),
             });
         }
-        Err(_) => {
+        Err(error) => {
+            println!("{:?}", error);
+
             return Json(UploadImageResponse {
                 status: "error".to_string(),
                 file_name: None,

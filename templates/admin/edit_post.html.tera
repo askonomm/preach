@@ -45,3 +45,52 @@
   hx-post="/admin/api/post/{{ post.id }}/update-date"
   hx-trigger="input changed delay:250ms"
 /><br />
+
+<script>
+function insertAtCaret(value, event) {
+  const el = document.querySelector("textarea[name=body]");
+  const startPos = el.selectionStart;
+  const endPos = el.selectionEnd;
+
+  if (startPos || endPos == "0") {
+    const scrollTop = el.scrollTop;
+
+    el.value = [
+      el.value.substring(0, startPos),
+      value,
+      el.value.substring(endPos, el.value.length),
+    ].join("");
+
+    el.focus();
+    el.selectionStart = startPos + value.length;
+    el.selectionEnd = startPos + value.length;
+    el.scrollTop = scrollTop;
+  }
+}
+
+function uploadFile(file) {
+  const fid = Math.random().toString(36).substring(7);
+  const data = new FormData();
+
+  data.append("file", file);
+
+  fetch("/admin/api/upload-image", {
+    method: "POST",
+    body: data,
+  }).then(response => response.json()).then(data => {
+    insertAtCaret(`![](${data.file_url})`);
+  }).catch(error => {
+    console.error(error);
+  });
+}
+
+window.addEventListener("drop", (e) => {
+  e.preventDefault();
+
+  for (var i = 0; i < e.dataTransfer.files.length; i++) {
+    if (/image/.test(e.dataTransfer.files[i].type)) {
+      uploadFile(e.dataTransfer.files[i]);
+    }
+  }
+});
+</script>

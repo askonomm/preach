@@ -1,2 +1,6 @@
 [default]
 address = "0.0.0.0"
+
+[global.limits]
+file = 20000000
+data-form = 20000000

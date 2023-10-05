@@ -1291,23 +1291,13 @@ dependencies = [
  "diesel_migrations",
  "dotenvy",
  "markdown",
- "pretty_date",
  "rocket",
  "rocket_dyn_templates",
+ "rust-embed",
  "serde",
  "serde_json",
  "time",
  "uuid",
-]
-
-[[package]]
-name = "pretty_date"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e571dbb1016c8394a881479c80467b4809700c10b483dc220761fd09656eb29"
-dependencies = [
- "chrono",
- "lazy_static",
 ]
 
 [[package]]
@@ -1537,6 +1527,40 @@ dependencies = [
  "time",
  "tokio",
  "uncased",
+]
+
+[[package]]
+name = "rust-embed"
+version = "8.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b1e7d90385b59f0a6bf3d3b757f3ca4ece2048265d70db20a2016043d4509a40"
+dependencies = [
+ "rust-embed-impl",
+ "rust-embed-utils",
+ "walkdir",
+]
+
+[[package]]
+name = "rust-embed-impl"
+version = "8.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3c3d8c6fd84090ae348e63a84336b112b5c3918b3bf0493a581f7bd8ee623c29"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "rust-embed-utils",
+ "syn",
+ "walkdir",
+]
+
+[[package]]
+name = "rust-embed-utils"
+version = "8.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "873feff8cb7bf86fdf0a71bb21c95159f4e4a37dd7a4bd1855a940909b583ada"
+dependencies = [
+ "sha2",
+ "walkdir",
 ]
 
 [[package]]

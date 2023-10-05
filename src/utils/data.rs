@@ -122,10 +122,10 @@ pub fn get_post(id: i32) -> Option<DisplayablePost> {
 
     match all_posts {
         Ok(all_posts) => {
-            if all_posts.is_empty() {
-                return None;
+            return if all_posts.is_empty() {
+                None
             } else {
-                return Some(post_to_displayable_post(all_posts[0].clone()));
+                Some(post_to_displayable_post(all_posts[0].clone()))
             }
         }
         Err(_) => None,
@@ -142,10 +142,10 @@ pub fn get_post_by_slug(slug: &str) -> Option<DisplayablePost> {
 
     match all_posts {
         Ok(all_posts) => {
-            if all_posts.is_empty() {
-                return None;
+            return if all_posts.is_empty() {
+                None
             } else {
-                return Some(post_to_displayable_post(all_posts[0].clone()));
+                Some(post_to_displayable_post(all_posts[0].clone()))
             }
         }
         Err(_) => None,
@@ -202,20 +202,20 @@ pub fn update_or_create_setting(key: &str, value: &str) {
     }
 }
 
-pub fn get_setting(key: &str) -> Option<String> {
-    use schema::site_info::dsl::{entry, name, site_info};
+pub fn get_setting(name: &str) -> Option<String> {
+    use schema::site_info::dsl::{entry, name as site_info_name, site_info};
 
     let setting = site_info
-        .filter(name.eq(key))
+        .filter(site_info_name.eq(name))
         .select(entry)
         .load::<String>(&mut db::connection());
 
     match setting {
         Ok(setting) => {
-            if setting.is_empty() {
-                return None;
+            return if setting.is_empty() {
+                None
             } else {
-                return Some(setting[0].clone());
+                Some(setting[0].clone())
             }
         }
         Err(_) => None,

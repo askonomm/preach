@@ -1,3 +1,7 @@
+:root {
+    --color: #6366F1;
+}
+
 * {
     letter-spacing: 0.1px;
     list-style: none;
@@ -75,7 +79,7 @@ textarea {
 }
 
 .content > .heading h2 {
-    font-size: 26px;
+    font-size: 25px;
     font-weight: 600;
     color: #111;
     line-height: 1;
@@ -84,11 +88,11 @@ textarea {
 
 .content > .heading .action a {
     display: inline-block;
-    border: 1px solid #888;
-    font-size: 12px;
+    border: 1px solid var(--color);
+    font-size: 11px;
     text-transform: uppercase;
-    font-weight: 500;
-    color: #111;
+    font-weight: 600;
+    color: var(--color);
     text-decoration: none;
     line-height: 1;
     border-radius: 25px;
@@ -99,6 +103,7 @@ textarea {
     width: 100%;
 }
 
+/** POSTS TABLE */
 .posts {
 
 }
@@ -107,7 +112,7 @@ textarea {
     display: grid;
     width: 100%;
     align-items: center;
-    grid-template-columns: 1fr 75px 85px;
+    grid-template-columns: 1fr 65px 85px;
     gap: 30px;
 }
 
@@ -134,7 +139,7 @@ textarea {
 .posts li a span {
     width: 100%;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -160,5 +165,28 @@ textarea {
     text-align: right;
     color: #999;
     font-weight: 400;
+}
+
+/** EDITOR */
+.editor {}
+.editor label {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.editor label > span {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
     text-transform: uppercase;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.editor label input[name="title"] {
+    width: 100%;
+}
+
+.editor label textarea[name="body"] {
+    width: 100%;
 }

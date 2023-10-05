@@ -9,105 +9,120 @@
 
 {% block content %}
 
-<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+  <div class="editor">
 
-<input
-  type="text"
-  name="title"
-  value="{{ post.title }}"
-  hx-post="/admin/api/post/{{ post.id }}/update-title"
-  hx-trigger="input changed delay:250ms"
-  hx-swap="none"
-/><br />
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
 
-<input
-  type="text"
-  name="slug"
-  value="{{ post.slug }}"
-  hx-post="/admin/api/post/{{ post.id }}/update-slug"
-  hx-trigger="input changed delay:250ms"
-  hx-swap="none"
-/><br />
+    <label>
+      <span>Title</span>
 
-<textarea
-  name="body"
-  hx-post="/admin/api/post/{{ post.id }}/update-body"
-  hx-trigger="input changed delay:250ms"
-  hx-swap="none"
-  >{{ post.raw_body }}</textarea
-><br />
+      <input
+        type="text"
+        name="title"
+        value="{{ post.title }}"
+        placeholder="Post title ..."
+        hx-post="/admin/api/post/{{ post.id }}/update-title"
+        hx-trigger="input changed delay:250ms"
+        hx-swap="none"
+      />
+    </label>
 
-<select
-  name="published_status"
-  hx-post="/admin/api/post/{{ post.id }}/update-status"
-  hx-trigger="input changed delay:250ms"
-  hx-swap="none"
->
-  {% if post.published_status == "draft" %}
-  <option value="draft">Draft</option>
-  <option value="published">Published</option>
-  {% else %}
-  <option value="published">Published</option>
-  <option value="draft">Draft</option>
-  {% endif %}
-</select><br />
+    <label>
+      <span>URL</span>
+      <input
+        type="text"
+        name="slug"
+        value="{{ post.slug }}"
+        hx-post="/admin/api/post/{{ post.id }}/update-slug"
+        hx-trigger="input changed delay:250ms"
+        hx-swap="none"
+      />
+    </label>
 
-<input
-  type="date"
-  name="published_at"
-  value="{{ post.published_at }}"
-  hx-post="/admin/api/post/{{ post.id }}/update-date"
-  hx-trigger="input changed delay:250ms"
-  hx-swap="none"
-/><br />
+    <label>
+      <span>Content</span>
+      <textarea
+        name="body"
+        hx-post="/admin/api/post/{{ post.id }}/update-body"
+        hx-trigger="input changed delay:250ms"
+        hx-swap="none"
+        >{{ post.raw_body }}</textarea
+      >
+    </label>
 
-<script>
-function insertAtCaret(value, event) {
-  const el = document.querySelector("textarea[name=body]");
-  const startPos = el.selectionStart;
-  const endPos = el.selectionEnd;
+    <select
+      name="published_status"
+      hx-post="/admin/api/post/{{ post.id }}/update-status"
+      hx-trigger="input changed delay:250ms"
+      hx-swap="none"
+    >
+      {% if post.published_status == "draft" %}
+      <option value="draft">Draft</option>
+      <option value="published">Published</option>
+      {% else %}
+      <option value="published">Published</option>
+      <option value="draft">Draft</option>
+      {% endif %}
+    </select><br />
 
-  if (startPos || endPos == "0") {
-    const scrollTop = el.scrollTop;
+    <input
+      type="date"
+      name="published_at"
+      value="{{ post.published_at }}"
+      hx-post="/admin/api/post/{{ post.id }}/update-date"
+      hx-trigger="input changed delay:250ms"
+      hx-swap="none"
+    /><br />
 
-    el.value = [
-      el.value.substring(0, startPos),
-      value,
-      el.value.substring(endPos, el.value.length),
-    ].join("");
+  </div>
 
-    el.focus();
-    el.selectionStart = startPos + value.length;
-    el.selectionEnd = startPos + value.length;
-    el.scrollTop = scrollTop;
-  }
-}
+  <script>
+  function insertAtCaret(value, event) {
+    const el = document.querySelector("textarea[name=body]");
+    const startPos = el.selectionStart;
+    const endPos = el.selectionEnd;
 
-function uploadFile(file) {
-  const fid = Math.random().toString(36).substring(7);
-  const data = new FormData();
+    if (startPos || endPos == "0") {
+      const scrollTop = el.scrollTop;
 
-  data.append("file", file);
+      el.value = [
+        el.value.substring(0, startPos),
+        value,
+        el.value.substring(endPos, el.value.length),
+      ].join("");
 
-  fetch("/admin/api/upload-image", {
-    method: "POST",
-    body: data,
-  }).then(response => response.json()).then(data => {
-    insertAtCaret(`![](${data.file_url})`);
-  }).catch(error => {
-    console.error(error);
-  });
-}
-
-window.addEventListener("drop", (e) => {
-  e.preventDefault();
-
-  for (var i = 0; i < e.dataTransfer.files.length; i++) {
-    if (/image/.test(e.dataTransfer.files[i].type)) {
-      uploadFile(e.dataTransfer.files[i]);
+      el.focus();
+      el.selectionStart = startPos + value.length;
+      el.selectionEnd = startPos + value.length;
+      el.scrollTop = scrollTop;
     }
   }
-});
-</script>
+
+  function uploadFile(file) {
+    const fid = Math.random().toString(36).substring(7);
+    const data = new FormData();
+
+    data.append("file", file);
+
+    fetch("/admin/api/upload-image", {
+      method: "POST",
+      body: data,
+    }).then(response => response.json()).then(data => {
+      insertAtCaret(`![](${data.file_url})`);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
+  window.addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    for (var i = 0; i < e.dataTransfer.files.length; i++) {
+      if (/image/.test(e.dataTransfer.files[i].type)) {
+        uploadFile(e.dataTransfer.files[i]);
+      }
+    }
+  });
+  </script>
 
 {% endblock content %}

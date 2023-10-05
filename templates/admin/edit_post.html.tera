@@ -1,10 +1,15 @@
+{% extends "admin/base" %}
+
+{% block title %}Edit Post{% endblock title %}
+{% block page_title %}Edit Post{% endblock title %}
+
+{% block action %}
+  <a class="bad" href="/admin/posts/delete/{{ post.id }}">Delete Post</a>
+{% endblock action %}
+
+{% block content %}
+
 <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-
-<h2>Edit Post</h2>
-
-<a href="/admin/posts/delete/{{ post.id }}">Delete Post</a>
-
-<br />
 
 <input
   type="text"
@@ -104,3 +109,5 @@ window.addEventListener("drop", (e) => {
   }
 });
 </script>
+
+{% endblock content %}

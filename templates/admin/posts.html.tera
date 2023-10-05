@@ -1,19 +1,35 @@
 {% extends "admin/base" %}
 
-{% block title %}Posts &mdash; {% endblock title %}
+{% block title %}Posts{% endblock title %}
+{% block page_title %}Posts{% endblock title %}
+
+{% block action %}
+  <a href="/admin/posts/new">New Post</a>
+{% endblock action %}
 
 {% block content %}
 
-<h2>Posts</h2>
-
-<a href="/admin/posts/new">New Post</a>
-
-<ul>
-  {% for post in posts %}
-  <li>
-    <a href="/admin/posts/edit/{{ post.id }}">{{ post.title }}</a>
-  </li>
-  {% endfor %}
-</ul>
+  <div class="posts">
+    <ul>
+      <li class="heading">
+        <div>
+          <span>Title</span>
+          <span>Status</span>
+          <span>Published</span>
+        </div>
+      </li>
+      {% for post in posts %}
+      <li>
+        <a href="/admin/posts/edit/{{ post.id }}">
+          <div>
+            <span class="post-title">{{ post.title }}</span>
+            <span class="post-status" data-value="{{ post.published_status }}">{{ post.published_status }}</span>
+            <span class="post-date">{{ post.published_at_pretty_short }}</span>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
 
 {% endblock content %}

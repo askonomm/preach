@@ -15,6 +15,7 @@ pub struct DisplayablePost {
     pub published_status: String,
     pub published_at: String,
     pub published_at_pretty: String,
+    pub published_at_pretty_short: String,
 }
 
 pub fn post_to_displayable_post(post: Post) -> DisplayablePost {
@@ -33,5 +34,6 @@ pub fn post_to_displayable_post(post: Post) -> DisplayablePost {
         published_status: post.published_status,
         published_at,
         published_at_pretty: published_at_datetime.format("%B %e, %Y").to_string(),
+        published_at_pretty_short: published_at_datetime.format("%b %d, %Y").to_string(),
     }
 }

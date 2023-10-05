@@ -52,22 +52,22 @@ pub async fn upload_image(
         .copy_to(format!("{}/{}", upload_path, name))
         .await;
 
-    match result {
+    return match result {
         Ok(_) => {
-            return Json(UploadImageResponse {
+            Json(UploadImageResponse {
                 status: "success".to_string(),
                 file_name: Some(name.clone()),
                 file_url: Some(format!("{}/{}", upload_url, name)),
-            });
+            })
         }
         Err(error) => {
             println!("{:?}", error);
 
-            return Json(UploadImageResponse {
+            Json(UploadImageResponse {
                 status: "error".to_string(),
                 file_name: None,
                 file_url: None,
-            });
+            })
         }
     }
 }

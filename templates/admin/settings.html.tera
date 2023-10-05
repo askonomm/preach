@@ -1,3 +1,9 @@
+{% extends "admin/base" %}
+
+{% block title %}Settings{% endblock title %}
+
+{% block content %}
+
 <script src="https://unpkg.com/htmx.org@1.9.6"></script>
 
 <h2>Settings</h2>
@@ -34,6 +40,9 @@
     name="description"
     hx-post="/admin/api/settings/update-description"
     hx-trigger="input changed delay:250ms"
+    hx-swap="none"
     >{{ description }}</textarea
   ></label
 ><br />
+
+{% endblock content %}

@@ -16,6 +16,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #fafafa;
 }
 
 @media all and (max-width: 800px) {
@@ -39,7 +40,7 @@ p a {
 }
 
 h2.page-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     color: #bbb;
@@ -53,8 +54,75 @@ h2.page-title {
     }
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    gap: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+@media all and (max-width: 800px) {
+    .header {
+        height: 70px;
+        line-height: 70px;
+    }
+}
+
+.header.is-visible {
+    background: rgba(255,255,255,.5);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 1px 4px rgba(0,0,0,.03);
+    border-bottom: 1px solid #ddd;
+}
+
+.header .site-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    box-shadow: 0 1px 4px rgba(0,0,0,.15);
+    border: 1px solid rgba(0,0,0,.25);
+    background-size: cover !important;
+}
+
+.header .site-title {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.25px;
+}
+
+.header .site-title a {
+    color: #111;
+    text-decoration: none;
+}
+
+.header .site-menu {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.25px;
+    margin-left: auto;
+}
+
+.header .site-menu a {
+    color: #777;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.header .site-menu a.active {
+    color: #111;
+}
+
 .container {
     width: 575px;
+    text-shadow: 0 1px 0 #fff;
     padding-top: 100px;
     padding-bottom: 100px;
 }
@@ -62,29 +130,7 @@ h2.page-title {
 @media all and (max-width: 800px) {
     .container {
         width: 100%;
-        padding: 0;
-    }
-}
-
-.site-image {
-    width: 60px;
-    height: 60px;
-    transform: rotate(30deg);
-    box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
-    background-size: cover !important;
-    border-radius: 25%;
-    position: fixed;
-    top: calc(50% - 30px);
-    right: 60px;
-}
-
-@media all and (max-width: 800px) {
-    .site-image {
-        transform: rotate(0deg);
-        position: relative;
-        top: 0;
-        right: auto;
-        margin-bottom: 30px;
+        padding: 70px 0 0;
     }
 }
 
@@ -95,103 +141,6 @@ h2.page-title {
         gap: 30px;
         margin-bottom: 40px;
     }
-}
-
-.site-title {
-    transform: rotate(-90deg);
-    position: fixed;
-    height: 50px;
-    line-height: 50px;
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    font-size: 13px;
-    text-align: center;
-    width: 100vw;
-    top: calc(50% - 25px);
-    right: calc(50% - 50px);
-    padding: 0;
-    margin: 0;
-}
-
-@media all and (max-width: 800px) {
-    .site-title {
-        width: auto;
-        text-align: left;
-        transform: rotate(0deg);
-        position: relative;
-        top: 0;
-        right: auto;
-        height: auto;
-        line-height: 1;
-        margin-top: 10px;
-        margin-bottom: 15px;
-    }
-}
-
-.site-title a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    color: #111;
-}
-
-.site-title a span {
-    display: inline-block;
-
-}
-
-.site-menu {
-    transform: rotate(-90deg);
-    position: fixed;
-    height: 50px;
-    line-height: 50px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-size: 13px;
-    text-align: center;
-    width: 100vw;
-    padding-right: 10px;
-    top: calc(50% - 25px);
-    right: calc(50% - 95px);
-}
-
-@media all and (max-width: 800px) {
-    .site-menu {
-        width: auto;
-        text-align: left;
-        transform: rotate(0deg);
-        font-weight: 500;
-        text-transform: capitalize;
-        position: relative;
-        top: 0;
-        height: auto;
-        line-height: 1;
-        right: auto;
-        margin-bottom: 30px;
-    }
-}
-
-.site-menu a {
-    color: #777;
-    text-decoration: none;
-    padding-left: 3px;
-    padding-bottom: 3px;
-    margin-left: 6px;
-    margin-right: 6px;
-}
-
-@media all and (max-width: 800px) {
-    .site-menu a {
-        padding-left: 0;
-        margin-left: 0;
-        margin-right: 10px;
-    }
-}
-
-.site-menu a.active {
-    color: #111;
-    border-bottom: 1px solid #111;
 }
 
 .posts .post {
@@ -210,7 +159,7 @@ h2.page-title {
 
 @media all and (max-width: 800px) {
     .post-title {
-        font-size: 26px;
+        font-size: 24px;
     }
 }
 
@@ -239,8 +188,8 @@ h2.page-title {
 .post-body code {
     font-size: 14px;
     font-family: monospace;
-    background: #fafafa;
-    border: 1px solid #e5e5e5;
+    background: #fff;
+    border: 1px solid #ddd;
     padding: 3px 6px;
     border-radius: 5px;
 }
@@ -256,8 +205,9 @@ h2.page-title {
     width: calc(100% + 120px);
     font-size: 14px;
     font-family: monospace;
-    background: #fafafa;
-    border: 1px solid #e5e5e5;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,.045);
+    border: 1px solid #ddd;
     border-radius: 5px;
     overflow: auto;
     padding: 30px 60px;

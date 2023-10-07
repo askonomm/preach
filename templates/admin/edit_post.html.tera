@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/htmx.org@1.9.6"></script>
 
     <label>
-      <span>Title</span>
+      <span class="label-name">Title</span>
 
       <input
         type="text"
@@ -27,8 +27,10 @@
       />
     </label>
 
-    <label>
-      <span>URL</span>
+    <label class="has-prefix">
+      <span class="label-name">URL</span>
+
+      <span class="prefix">http://web.com/</span>
       <input
         type="text"
         name="slug"
@@ -40,7 +42,8 @@
     </label>
 
     <label>
-      <span>Content</span>
+      <span class="label-name">Content</span>
+
       <textarea
         name="body"
         hx-post="/admin/api/post/{{ post.id }}/update-body"

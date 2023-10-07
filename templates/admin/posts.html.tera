@@ -24,7 +24,12 @@
           <div>
             <span class="post-title">{{ post.title }}</span>
             <span class="post-status" data-value="{{ post.published_status }}">{{ post.published_status }}</span>
-            <span class="post-date">{{ post.published_at_pretty_short }}</span>
+            <span class="post-date">
+              {% if post.published_status == "draft" %}
+                &mdash;
+              {% else %}
+                {{ post.published_at_pretty_short }}
+              {% endif %}</span>
           </div>
         </a>
       </li>

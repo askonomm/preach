@@ -5,25 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}{% endblock title %}{{ site_title }}</title>
     <link rel="stylesheet" href="/static/css/site.css">
+    <script src="/static/js/site.js"></script>
 </head>
 <body>
 
-    <div class="container">
+    <div class="header">
+        <div class="site-image" style="background:url('{{ site_image }}');"></div>
 
-        <div class="heading">
-            <div class="site-image" style="background:url('{{ site_image }}');"></div>
+        <h1 class="site-title">
+            <a href="/"><span>{{ site_title }}</span></a>
+        </h1>
 
-            <div>
-                <h1 class="site-title">
-                    <a href="/"><span>{{ site_title }}</span></a>
-                </h1>
-
-                <div class="site-menu">
-                    <a href="/" class="{% if active_page == "about" %}active{% endif %}">About</a>
-                    <a href="/blog" class="{% if active_page == "blog" %}active{% endif %}">Blog</a>
-                </div>
-            </div>
+        <div class="site-menu">
+            <a href="/" class="{% if active_page == "about" %}active{% endif %}">About</a>
+            <a href="/blog" class="{% if active_page == "blog" %}active{% endif %}">Blog</a>
         </div>
+    </div>
+
+    <div class="container">
 
         {% block content %}{% endblock content %}
 
